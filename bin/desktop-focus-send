@@ -1,0 +1,19 @@
+#! /bin/sh
+
+# Script to allow alllocation of 10 desktops per monitor
+# If currently focused monitor is DP-0, then go to 1-10 as entered
+# Else, go to 1-10 (+10) as entered, resulting in desktops 11-20
+
+if [[ $(bspc query -M -m focused --names) == DP-0 ]]; then
+	if [[ $1 == go ]]; then
+		bspc desktop -f "^$2"
+	else
+		bspc node -d "^$2"
+	fi
+else
+	if [[ $1 == go ]]; then
+		bspc desktop -f "^$(($2 + 10))"
+	else
+		bspc node -d "^$(($2 + 10))"
+	fi
+fi

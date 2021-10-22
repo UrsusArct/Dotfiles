@@ -1,0 +1,3 @@
+#!/bin/bash
+TIME=${1:-3}
+sleep $TIME; echo -e "\a"

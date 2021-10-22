@@ -1,0 +1,47 @@
+#! /bin/sh
+
+xresource() {
+  xrdb -query | grep -w "*.$1" | sed -r "s/^[^:]+:\s+//" | tail -n 1
+}
+
+nitrogen --restore &
+
+$HOME/.config/polybar/launch.sh
+
+#pgrep -x polybar > /dev/null || polybar left &; polybar right &
+pgrep -x sxhkd > /dev/null || sxhkd &
+pgrep -x dunst > /dev/null || dunst -config $HOME/.config/dunst/dunstrc &
+pgrep -x picom > /dev/null || picom --config $HOME/.config/picom/picom.conf &
+pgrep -x ntfd  > /dev/null || ntfd &
+
+xrandr --output DP-0 --mode 1920x1080 --rate 144
+xrandr --output HDMI-0 --mode 1920x1080 --right-of DP-0
+
+xinput --set-prop 14 'libinput Accel Speed' -1
+
+#bspc monitor -d I II III IV V VI VII VIII IX X
+
+bspc monitor DP-0 -d 1 2 3 4 5 6 7 8 9 10
+bspc monitor HDMI-0 -d 11 12 13 14 15 16 17 18 19 20
+
+bspc config window_gap          	24
+
+bspc config focused_border_color    $(xresource color8)
+bspc config active_border_color		$(xresource color0)
+bspc config border_width		1
+
+bspc config borderless_monocle		false
+bspc config gapless_monocle		false
+bspc config single_monocle		false
+
+bspc config focus_follows_pointer	true
+bspc config pointer_follows_monitor	false
+
+bspc config pointer_motion_interval_resize 50
+
+bspc rule -a "Tor Browser" state=floating
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a Chromium desktop='^2'
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
