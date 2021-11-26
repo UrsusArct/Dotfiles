@@ -19,12 +19,22 @@ case $allowed in
         #Need to add installing fonts
         #Configure and add .bashrc
         #Add mini-greeter config
+        #Add firefox theme
+        #Add package installing
 
         printf "\n\n${cg}[*] Copying dotfiles\n"
+
+        printf "\n${cb}[-] Copying ~/ files\n"
+        cp -r home/* ~/.
+        printf "{cb}[-] Copied ~/ files\n"
 
         printf "\n${cb}[-] Copying configs\n"
         cp -r config/* ~/.config
         printf "${cb}[-] Copied configs\n"
+
+        printf "\n${cb}[-] Setting background\n"
+        nitrogen --set-tiled config/bspwm/tilekori4-dark-med.jpg
+        printf "${cb}[-] Set background\n"
 
         printf "\n${cb}[-] Copying scripts\n"
         cp -r bin/* ~/.local/bin/.
